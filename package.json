@@ -11,5 +11,8 @@
     "url": "git+https://github.com/Vaibhav-G-Parmar/fragments.git"
   },
   "author": "Vaibhav Parmar",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^8.49.0"
+  }
 }
