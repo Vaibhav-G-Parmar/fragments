@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
 const authenticate = require('./auth');
+const createErrorResponse = require('./response') 
 
 // // author and version from our package.json file
 // const { author, version } = require('../package.json');
@@ -32,7 +33,7 @@ app.use(cors());
 app.use(compression());
 
 // Define our routes
-app.use('/', require('./routes'));
+//app.use('/', require('./routes'));
 
 // Use gzip/deflate compression middleware
 app.use(compression());
@@ -45,14 +46,15 @@ app.use(passport.initialize());
 app.use('/', require('./routes'));
 
 // Add 404 middleware to handle any requests for resources that can't be found
-app.use((req, res) => {
-  res.status(404).json({
-    status: 'error',
-    error: {
-      message: 'not found',
-      code: 404,
-    },
-  });
+app.use((req, res, next) => {
+  next(createErrorResponse(404, 'not found'));
+  // res.status(404).json({
+  //   status: 'error',
+  //   error: {
+  //     message: 'not found',
+  //     code: 404,
+  //   },
+  // });
 });
 
 // Add error-handling middleware to deal with anything else
@@ -60,7 +62,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   // We may already have an error response we can use, but if not,
   // use a generic `500` server error and message.
-  const status = err.status || 500;
+  const status = err.status || 404;
   const message = err.message || 'unable to process request';
 
   // If this is a server error, log something so we can see what's going on.
@@ -68,13 +70,14 @@ app.use((err, req, res, next) => {
     logger.error({ err }, `Error processing request`);
   }
 
-  res.status(status).json({
-    status: 'error',
-    error: {
-      message,
-      code: status,
-    },
-  });
+  res.status(status).json(createErrorResponse(status, message));
+  // res.status(status).json({
+  //   status: 'error',
+  //   error: {
+  //     message,
+  //     code: status,
+  //   },
+  // });
 });
 
 // Export our `app` so we can access it in server.js
