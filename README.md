@@ -21,3 +21,5 @@ This repo is for my Lab 1 of CCP555 course
    https://code.visualstudio.com/docs/editor/debugging
 
    https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+
+5. More notes are handwritten in my Notebook for this subject 
