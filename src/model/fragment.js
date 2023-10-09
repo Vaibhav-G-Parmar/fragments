@@ -114,7 +114,7 @@ class Fragment {
    * @returns Promise<void>
    */
   save() {
-    logger.debug('entering save()');
+    logger.info('entering save()');
     this.updated = new Date().toISOString()
     return writeFragment(this)
   }
@@ -124,7 +124,7 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   getData() {
-    logger.debug('entering getData()');
+    logger.info('entering getData()');
     return readFragmentData(this.ownerId, this.id)
   }
 
@@ -164,7 +164,7 @@ class Fragment {
    * @returns {boolean} true if fragment's type is text/*
    */
   get isText() {
-    logger.debug('entering isText()');
+    logger.info('entering isText()');
     return this.mimeType.startsWith('text')
   }
 
@@ -173,7 +173,7 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    logger.debug('entering formats()');
+    logger.info('entering formats()');
     return ['text/plain'];
   }
 
