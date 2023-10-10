@@ -5,7 +5,7 @@ const { createSuccessResponse, createErrorResponse } = require('../../response')
 const logger = require('../../logger')
 
 module.exports = async (req, res) => {
-  logger.debug(`Posting fragment for req:${req.body}`)
+  logger.info(`Posting fragment for req:${req.body}`)
   if (Fragment.isSupportedType(req.get('Content-Type'))) {
     try {
       logger.info('Creating a new Fragment')
