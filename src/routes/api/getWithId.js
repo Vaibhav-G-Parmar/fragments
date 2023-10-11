@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
 
     res.setHeader('Content-Type', fragment.type)      //setting the type (plain-text for now) in the header
     const fgData = await fragment.getData()
+    logger.info(`here is the fgdata:${fgData.toString()}`)
     res.status(200).send(fgData)                      //sending fragment's raw data
     logger.info(`type set in the header and fragment data sent:${fgData}`);
   } catch (error) {
