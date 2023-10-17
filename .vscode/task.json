@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Node Image",
+      "command": "docker run",
+      "node": "docker-run",
+      "image": "fragments:latest",
+      "containerName": "fragments",
+      "remove": true,
+      "platform": "node",
+      "ports": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080
+          }
+        ],
+      "envFiles": ["/Users/vaibhavparmar/Documents/Vaibhav/Fall 2023/CCP555 NSB/Labs/Lab 1/fragments/env.jest"]
+    }
+  ]
+}

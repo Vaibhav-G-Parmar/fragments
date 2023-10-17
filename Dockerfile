@@ -4,7 +4,7 @@
 #specifies the parent (or base) image to use as a starting point for our own image. 
 #Our fragments image will be based on other Docker images, the official node base images
 # Use node version 18.17.1
-FROM node:18.17.1
+FROM node:18.17.1 
 ########### if I am using different PC then I need to select the version of node I am using in that pc #########
 
 #The LABEL instruction adds key=value pairs with arbitrary metadata about your image.
