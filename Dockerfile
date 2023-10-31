@@ -3,8 +3,8 @@
 
 #specifies the parent (or base) image to use as a starting point for our own image. 
 #Our fragments image will be based on other Docker images, the official node base images
-# Use node version 18.17.1
-FROM node:18.17.1 
+# Use node version 18.17.1 - locking it by using sha for the version 18.17.1
+FROM node:18.17.1@sha256:933bcfad91e9052a02bc29eb5aa29033e542afac4174f9524b79066d97b23c24 
 ########### if I am using different PC then I need to select the version of node I am using in that pc #########
 
 #The LABEL instruction adds key=value pairs with arbitrary metadata about your image.
@@ -41,6 +41,13 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # Start the container by running our server
 CMD npm start
+# CMD node src/index.js
+# Avoiding using npm inside the Dockerfile and using node since npm has to start multiple processes and we want to avoid that
 
 # We run our service on port 8080
 EXPOSE 8080
+
+#healthcheck of the container (keep checking every time you run the docker instance, whether it is returning 200 ok or not, is it healthy route \
+# or not keep checking every time you run the docker instance, whether it is returning 200 ok or not, is it healthy route or not)
+HEALTHCHECK --interval=15s --timeout=30s --start-period=10s --retries=3 \
+  CMD curl --fail localhost || exit 1
