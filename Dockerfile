@@ -40,7 +40,7 @@ COPY ./src ./src
 COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # Start the container by running our server
-CMD npm start
+CMD ["npm", "start"]
 # CMD node src/index.js
 # Avoiding using npm inside the Dockerfile and using node since npm has to start multiple processes and we want to avoid that
 
