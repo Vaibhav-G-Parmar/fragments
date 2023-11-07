@@ -41,7 +41,7 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # Start the container by running our server
 CMD ["npm", "start"]
-# CMD node src/index.js
+# CMD ["node", "src/index.js"] <- this can be run as well
 # Avoiding using npm inside the Dockerfile and using node since npm has to start multiple processes and we want to avoid that
 
 # We run our service on port 8080
