@@ -136,6 +136,7 @@ class Fragment {
         this.updated = new Date().toISOString();
         this.size = data.length;
         await writeFragment(this);
+        await this.save();
         return writeFragmentData(this.ownerId, this.id, data);
       } else {
         return Promise.reject(new Error('Data could not be set, can not be empty'))
