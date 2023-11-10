@@ -7,7 +7,12 @@ const logger = require('../../logger');
 module.exports = async (req, res) => {
   console.log(req.body.toString());
   logger.info(`Posting fragment for req:${req.body}`);
-  if (Fragment.isSupportedType(req.get('Content-Type'))) {
+
+  if (!Fragment.isSupportedType(req.get('Content-Type'))) {
+    res.status(415).json(createErrorResponse(415, 'Type not supported'));
+    logger.warn('Content-type is not posted');
+  } 
+  else {
     try {
       logger.info('Creating a new Fragment');
       const fragment = new Fragment({
@@ -33,8 +38,5 @@ module.exports = async (req, res) => {
       res.status(500).json(createErrorResponse(505, error));
       logger.error('Fragment could not be posted');
     }
-  } else {
-    res.status(415).json(createErrorResponse(415, 'Type not supported'));
-    logger.warn('Content-type is not posted');
   }
 };
