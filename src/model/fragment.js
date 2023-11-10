@@ -22,11 +22,7 @@ class Fragment {
     //throw if values are invalid(for ownerID, type and size) or assign a default value if empty(for id, created and updated)
     logger.debug('Fragment Constructor with values', {id, ownerId, created, updated, type, size})
 
-    if (!id) {
-      this.id = randomUUID()
-    } else {
-      this.id = id
-    }
+    this.id = id || randomUUID();
 
     if (!ownerId) {
       throw new Error(`ownerId is required, got ownerId=${ownerId}`)
