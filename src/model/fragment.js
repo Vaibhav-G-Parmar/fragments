@@ -7,6 +7,10 @@ const { randomUUID } = require('crypto');
 const contentType = require('content-type');
 const logger = require('../logger');
 
+const md = require('markdown-it')({
+  html: true,
+});
+
 // Functions for working with fragment metadata/data using our DB
 const {
   readFragment,
@@ -110,18 +114,27 @@ class Fragment {
    * @returns Promise<void>
    */
   save() {
-    logger.info('entering save()');
-    this.updated = new Date().toISOString()
-    return writeFragment(this)
+    try{
+      logger.info('entering save()');
+      this.updated = new Date().toISOString()
+      return writeFragment(this)
+    } catch (err) {
+      throw new Error('Unable to save the current fragment to the database');
+    }
+
   }
 
   /**
    * Gets the fragment's data from the database
    * @returns Promise<Buffer>
    */
-  getData() {
-    logger.info('entering getData()');
-    return readFragmentData(this.ownerId, this.id)
+  async getData() {
+    try{
+      logger.info('entering getData()');
+      return await readFragmentData(this.ownerId, this.id);
+    }catch (err) {
+      throw new Error('Unable to get fragment data');
+    }
   }
 
   /**
@@ -171,7 +184,21 @@ class Fragment {
    */
   get formats() {
     logger.info('entering formats()');
-    return ['text/plain'];
+    if(this.mimeType === 'text/plain'){
+      return ['text/plain'];
+    } 
+    else if(this.mimeType === 'text/markdown'){
+      return ['text/plain', 'text/html', 'text/markdown'];
+    }
+    else if (this.mimeType === 'text/html') {
+      return ['text/plain', 'text/html'];
+    }
+    else if (this.mimeType === 'application/json') {
+      return ['text/plain', 'application/json'];
+    }
+    else{
+      return []
+    }
   }
 
   /**
@@ -181,7 +208,19 @@ class Fragment {
    */
   static isSupportedType(value) {
     logger.debug('entering isSupportedType() with parameter ', {value});
-    return ['text/plain', 'text/plain; charset=utf-8'].includes(value)
+    return ['text/plain', 'text/plain; charset=utf-8', 'text/markdown', 'text/html',
+            'application/json', 'application/json; charset=utf-8'].includes(value)
+  }
+
+   /**
+   * Returns the type converted data 
+   */
+  convertToSupportedType(data, type){
+    const formats = this.formats;
+    if (!formats.includes(type)) throw new Error('provided type is not supported type');
+    if (this.mimeType == 'text/markdown' && type == 'text/html') {
+      return md.render(data.toString());
+    }
   }
 }
 
