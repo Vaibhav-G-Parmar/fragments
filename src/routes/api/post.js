@@ -30,6 +30,7 @@ module.exports = async (req, res) => {
       await fragment.save(); //saving the fragment to the database
 
       logger.info("setting the fragment's location");
+      res.set('Content-Type', fragment.type);
       res.set('Location', `${process.env.API_URL}/v1/fragments/${fragment.id}`);
 
       res.status(201).json(createSuccessResponse({ fragment }));
