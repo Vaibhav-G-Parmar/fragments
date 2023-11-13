@@ -45,7 +45,7 @@ FROM node:20.9-alpine@sha256:eb881c02f0721b4562e0004295db6447bf0727c1 AS deploy
 
 WORKDIR /app
 
-COPY --from=base /app /app
+COPY --from=dependencies /app /app
 
 # Copy src to /app/src/
 COPY ./src ./src
