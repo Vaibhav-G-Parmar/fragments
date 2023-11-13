@@ -3,8 +3,8 @@
 /**
  * The main entry-point for the v1 version of the fragments API.
  */
-const { Fragment } = require('../../model/fragment')
-const contentType = require('content-type')
+const { Fragment } = require('../../model/fragment');
+const contentType = require('content-type');
 
 const express = require('express');
 
@@ -34,5 +34,8 @@ router.post('/fragments', rawBody(), require('./post'));
 
 // Gets an authenticated user's fragment data (i.e., raw binary data) with the given id
 router.get('/fragments/:id', require('./getWithId'));
+
+// Gets the metadata for one of their existing fragments with the specified id
+router.get('/fragments/:id/info', require('./getInfoWithId'));
 
 module.exports = router;

@@ -5,7 +5,7 @@ const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
 
 module.exports = async (req, res) => {
-  logger.info(`GET v1/fragements/:id route accessed with fragment ID ${req.params.id}`);
+  logger.info(`GET v1/fragments/:id route accessed with fragment ID ${req.params.id}`);
   
   try {
     const fragment = await Fragment.byId(req.user, req.params.id)
