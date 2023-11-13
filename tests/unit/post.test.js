@@ -2,7 +2,6 @@
 
 const request = require('supertest')
 const app = require('../../src/app')
-const { readFragment } = require('../../src/model/data');
 
 describe('POST /fragments', () => {
   // If the request is missing the Authorization header, it should be forbidden
