@@ -216,7 +216,7 @@ class Fragment {
    * Returns the type converted data 
    */
   convertToSupportedType(data, type){
-    const formats = this.formats;
+    const formats = this.formats; 
     if (!formats.includes(type)) throw new Error('provided type is not supported type');
     if (this.mimeType == 'text/markdown' && type == 'text/html') {
       return md.render(data.toString());
