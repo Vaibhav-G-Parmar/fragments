@@ -55,7 +55,7 @@
       "secrets": null,
       "dockerSecurityOptions": null,
       "memory": null,
-      "memoryReservation": 512,
+      "memoryReservation": 2048,
       "volumesFrom": [],
       "stopTimeout": null,
       "image": "vaibhavparmar/fragments:latest",
