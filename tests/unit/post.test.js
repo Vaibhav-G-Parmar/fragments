@@ -40,9 +40,9 @@ describe('POST /fragments', () => {
     expect(res.headers.location).toEqual(`${process.env.API_URL}/v1/fragments/${JSON.parse(res.text).fragment.id}`);
   });
 
-  //trying to create a fragment with an unsupported type should 
-  test('authenticated users trying to post a fragment with an unsupported', async () => {
-    const res = await request(app).post('/v1/fragments').set('Content-type', 'image/png').auth('user1@email.com', 'password1');
+  //trying to create a fragment with an unsupported type  
+  test('authenticated users trying to post a fragment with an unsupported type', async () => {
+    const res = await request(app).post('/v1/fragments').set('Content-type', 'image/unsupported').auth('user1@email.com', 'password1');
     expect(res.statusCode).toBe(415);
     expect(res.body.status).toBe('error');
   });
