@@ -79,7 +79,7 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "512",
+  "memory": "3000",
   "taskRoleArn": "arn:aws:iam::234549417172:role/LabRole",
   "compatibilities": [
     "EC2",
