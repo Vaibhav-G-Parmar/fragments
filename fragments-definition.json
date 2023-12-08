@@ -27,10 +27,6 @@
       "cpu": 512,
       "environment": [
         {
-          "name": "API_URL",
-          "value": "http://EC2Con-EcsEl-ETzukTnITtTQ-2095734807.us-east-1.elb.amazonaws.com:8080/"
-        },
-        {
           "name": "AWS_COGNITO_CLIENT_ID",
           "value": "1j3rbh91sml8hv3kt3e39j0tv0"
         },
