@@ -35,6 +35,14 @@
           "value": "us-east-1_QW7Ik5wLe"
         },
         {
+          "name": "LOG_LEVEL",
+          "value": "info"
+        },
+        {
+          "name": "HTPASSWD_FILE",
+          "value": "tests/.htpasswd"
+        },
+        {
           "name": "PORT",
           "value": "8080"
         },
