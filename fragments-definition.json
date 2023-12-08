@@ -54,7 +54,7 @@
       "workingDirectory": null,
       "secrets": null,
       "dockerSecurityOptions": null,
-      "memory": 3000,
+      "memory": 3072,
       "memoryReservation": 512,
       "volumesFrom": [],
       "stopTimeout": null,
@@ -79,7 +79,7 @@
     }
   ],
   "placementConstraints": [],
-  "memory": "3000",
+  "memory": "3072",
   "taskRoleArn": "arn:aws:iam::234549417172:role/LabRole",
   "compatibilities": [
     "EC2",
