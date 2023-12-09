@@ -38,6 +38,9 @@ router.get('/fragments/:id', require('./getWithId'));
 // Gets the metadata for one of their existing fragments with the specified id
 router.get('/fragments/:id/info', require('./getInfoWithId'));
 
+// PUT a single fragment
+router.put('/fragments/:id', rawBody(), require('./put'));
+
 router.delete('/fragments/:id', require('./delete'));
 
 module.exports = router;

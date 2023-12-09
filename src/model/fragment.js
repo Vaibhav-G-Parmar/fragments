@@ -24,14 +24,14 @@ const {
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
     //throw if values are invalid(for ownerID, type and size) or assign a default value if empty(for id, created and updated)
-    logger.debug('Fragment Constructor with values', {id, ownerId, created, updated, type, size})
+    logger.debug('Fragment Constructor with values', { id, ownerId, created, updated, type, size });
 
     this.id = id || randomUUID();
 
     if (!ownerId) {
-      throw new Error(`ownerId is required, got ownerId=${ownerId}`)
+      throw new Error(`ownerId is required, got ownerId=${ownerId}`);
     } else {
-      this.ownerId = ownerId
+      this.ownerId = ownerId;
     }
 
     if (!created) {
@@ -47,10 +47,10 @@ class Fragment {
     }
 
     if (!type) {
-      throw new Error(`type is required, got type=${type}`);              //throw if type is empty
+      throw new Error(`type is required, got type=${type}`); //throw if type is empty
     } else {
       if (!Fragment.isSupportedType(type)) {
-        throw new Error(`type is not supported type, got type=${type}`)   //throw if type is not a supported type, for now limited to text-plain 
+        throw new Error(`type is not supported type, got type=${type}`); //throw if type is not a supported type, for now limited to text-plain
       }
       this.type = type;
     }
@@ -69,16 +69,16 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
   static async byUser(ownerId, expand = false) {
-    logger.debug('entering byUser() with parameters: ', {ownerId, expand})
+    logger.debug('entering byUser() with parameters: ', { ownerId, expand });
     try {
-      const frgmt = await listFragments(ownerId, expand)
+      const frgmt = await listFragments(ownerId, expand);
       if (!expand) {
-        return frgmt
+        return frgmt;
       } else {
-        return frgmt.map((fragment) => new Fragment(fragment))
+        return frgmt.map((fragment) => new Fragment(fragment));
       }
     } catch (error) {
-      return []
+      return [];
     }
   }
 
@@ -89,11 +89,12 @@ class Fragment {
    * @returns Promise<Fragment>
    */
   static async byId(ownerId, id) {
-    logger.debug('entering byId() with parameters: ', {ownerId, id});
+    logger.debug('entering byId() with parameters: ', { ownerId, id });
     try {
-      const frgmt = await readFragment(ownerId, id)
+      const frgmt = await readFragment(ownerId, id);
       return new Fragment(frgmt);
     } catch (error) {
+      console.log('error fetching by id: ', error);
       throw new Error(`fragment with ownerId:${ownerId} and id:${id} could not be read`);
     }
   }
@@ -105,8 +106,8 @@ class Fragment {
    * @returns Promise<void>
    */
   static delete(ownerId, id) {
-    logger.debug('entering delete() with parameters: ', {ownerId, id});
-    return deleteFragment(ownerId, id)
+    logger.debug('entering delete() with parameters: ', { ownerId, id });
+    return deleteFragment(ownerId, id);
   }
 
   /**
@@ -114,14 +115,13 @@ class Fragment {
    * @returns Promise<void>
    */
   save() {
-    try{
+    try {
       logger.info('entering save()');
-      this.updated = new Date().toISOString()
-      return writeFragment(this)
+      this.updated = new Date().toISOString();
+      return writeFragment(this);
     } catch (err) {
       throw new Error('Unable to save the current fragment to the database');
     }
-
   }
 
   /**
@@ -129,10 +129,10 @@ class Fragment {
    * @returns Promise<Buffer>
    */
   async getData() {
-    try{
+    try {
       logger.info('entering getData()');
       return await readFragmentData(this.ownerId, this.id);
-    }catch (err) {
+    } catch (err) {
       throw new Error('Unable to get fragment data');
     }
   }
@@ -143,7 +143,7 @@ class Fragment {
    * @returns Promise<void>
    */
   async setData(data) {
-    logger.debug('entering setData() with ', {data});
+    logger.debug('entering setData() with ', { data });
     try {
       if (data) {
         this.updated = new Date().toISOString();
@@ -152,10 +152,11 @@ class Fragment {
         await this.save();
         return writeFragmentData(this.ownerId, this.id, data);
       } else {
-        return Promise.reject(new Error('Data could not be set, can not be empty'))
+        return Promise.reject(new Error('Data could not be set, can not be empty'));
       }
     } catch (error) {
-      Promise.reject(error)
+      console.log('error updating memory DB: ', error);
+      return Promise.reject(error);
     }
   }
 
@@ -175,7 +176,7 @@ class Fragment {
    */
   get isText() {
     logger.info('entering isText()');
-    return this.mimeType.startsWith('text')
+    return this.mimeType.startsWith('text');
   }
 
   /**
@@ -184,32 +185,24 @@ class Fragment {
    */
   get formats() {
     logger.info('entering formats()');
-    if(this.mimeType === 'text/plain'){
+    if (this.mimeType === 'text/plain') {
       return ['text/plain'];
-    } 
-    else if(this.mimeType === 'text/markdown'){
+    } else if (this.mimeType === 'text/markdown') {
       return ['text/plain', 'text/html', 'text/markdown'];
-    }
-    else if (this.mimeType === 'text/html') {
+    } else if (this.mimeType === 'text/html') {
       return ['text/plain', 'text/html'];
-    }
-    else if (this.mimeType === 'application/json') {
+    } else if (this.mimeType === 'application/json') {
       return ['text/plain', 'application/json'];
-    }
-    else if (this.mimeType === 'image/png') {
-      return ['image/png', 'image/jpeg','image/webp', 'image/gif'];
-    }
-    else if (this.mimeType === 'image/jpeg') {
-      return ['image/png', 'image/jpeg','image/webp', 'image/gif'];
-    }
-    else if (this.mimeType === 'image/webp') {
-      return ['image/png', 'image/jpeg','image/webp', 'image/gif'];
-    }
-    else if (this.mimeType === 'image/gif') {
-      return ['image/png', 'image/jpeg','image/webp', 'image/gif'];
-    }
-    else{
-      return []
+    } else if (this.mimeType === 'image/png') {
+      return ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+    } else if (this.mimeType === 'image/jpeg') {
+      return ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+    } else if (this.mimeType === 'image/webp') {
+      return ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+    } else if (this.mimeType === 'image/gif') {
+      return ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+    } else {
+      return [];
     }
   }
 
@@ -219,23 +212,26 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    logger.debug('entering isSupportedType() with parameter ', {value});
-    return ['text/plain', 
-            'text/plain; charset=utf-8', 
-            'text/markdown', 'text/html',
-            'application/json', 
-            'application/json; charset=utf-8', 
-            'image/png', 
-            'image/jpeg', 
-            'image/webp', 
-            'image/gif'].includes(value)
+    logger.debug('entering isSupportedType() with parameter ', { value });
+    return [
+      'text/plain',
+      'text/plain; charset=utf-8',
+      'text/markdown',
+      'text/html',
+      'application/json',
+      'application/json; charset=utf-8',
+      'image/png',
+      'image/jpeg',
+      'image/webp',
+      'image/gif',
+    ].includes(value);
   }
 
-   /**
-   * Returns the type converted data 
+  /**
+   * Returns the type converted data
    */
-  convertToSupportedType(data, type){
-    const formats = this.formats; 
+  convertToSupportedType(data, type) {
+    const formats = this.formats;
     if (!formats.includes(type)) throw new Error('provided type is not supported type');
     if (this.mimeType == 'text/markdown' && type == 'text/html') {
       return md.render(data.toString());
