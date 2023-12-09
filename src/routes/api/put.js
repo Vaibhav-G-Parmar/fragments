@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
   let type = req.get('Content-Type');
   try {
     const fragment = await Fragment.byId(req.user, req.params.id)
+    logger.info("got the fragment: ", fragment)
     if(type != fragment.type) {
       return res.status(404).json(createErrorResponse(400, "A fragment's type can not be changed after it is created"))
     }
