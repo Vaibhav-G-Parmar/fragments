@@ -231,11 +231,12 @@ class Fragment {
    * Returns the type converted data
    */
   convertToSupportedType(data, type) {
+    console.log("Entering convertToSupportedType with data" + data + " and type " + type)
     const formats = this.formats;
     if (!formats.includes(type)) throw new Error('provided type is not supported type');
-    if (this.mimeType == 'text/markdown' && type == 'text/html') {
-      return md.render(data.toString());
-    }
+    //if (this.mimeType == 'text/markdown' && type == 'text/html') {
+      return md.render(data);
+    //}
   }
 }
 

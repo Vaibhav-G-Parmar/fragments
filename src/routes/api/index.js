@@ -38,6 +38,9 @@ router.get('/fragments/:id', require('./getWithId'));
 // Gets the metadata for one of their existing fragments with the specified id
 router.get('/fragments/:id/info', require('./getInfoWithId'));
 
+// Gets the converted fragments with the specified id
+router.get('/fragments/:id.html', require('./getFragConverted'));
+
 // PUT a single fragment
 router.put('/fragments/:id', rawBody(), require('./put'));
 
