@@ -1,6 +1,9 @@
 # fragments
 This repo is for develops a REST API based on node.js using express framework for CCP555 course
 
+# The Front-end App
+The UI of the app is under this repo: https://github.com/Vaibhav-G-Parmar/fragments-ui
+
 # How to run various server start up script 
 
 1. npm run lint - running eslint to make sure that there are no errors which need to be fixed
