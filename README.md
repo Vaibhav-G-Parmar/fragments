@@ -1,5 +1,5 @@
 # fragments
-This repo is for my Lab 1 of CCP555 course
+This repo is for develops a REST API based on node.js using express framework for CCP555 course
 
 # How to run various server start up script 
 
